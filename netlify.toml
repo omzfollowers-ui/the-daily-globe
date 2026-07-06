@@ -1,38 +1,14 @@
-# ─────────────────────────────────────────────────────────────────────────────
-# Netlify configuration — The Daily Globe
-# Domains: thedailyglobe.co.uk  |  thedailyglobe.news
-# ─────────────────────────────────────────────────────────────────────────────
-
 [build]
   publish = "."
 
-# ── Security & performance headers ───────────────────────────────────────────
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options         = "SAMEORIGIN"
-    X-Content-Type-Options  = "nosniff"
-    X-XSS-Protection        = "1; mode=block"
-    Referrer-Policy         = "no-referrer-when-downgrade"
-    Permissions-Policy      = "camera=(), microphone=(), geolocation=()"
-    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+[build.processing]
+  skip_processing = false
 
-# Cache HTML for 5 minutes (content updates frequently)
-[[headers]]
-  for = "/*.html"
-  [headers.values]
-    Cache-Control = "public, max-age=300, stale-while-revalidate=60"
+[build.processing.html]
+  pretty_urls = true
 
-# ── Redirects ─────────────────────────────────────────────────────────────────
-# Clean URL
 [[redirects]]
-  from   = "/index.html"
-  to     = "/"
+  from = "/*.html"
+  to = "/:splat"
   status = 301
-
-# thedailyglobe.news → thedailyglobe.co.uk (primary domain)
-[[redirects]]
-  from   = "https://thedailyglobe.news/*"
-  to     = "https://thedailyglobe.co.uk/:splat"
-  status = 301
-  force  = true
+  force = true
